@@ -34,20 +34,16 @@ function isPrime(n) {
 }
 
 function handleData(data) {
-  try {
-    const json = JSON.parse(data)
+  const json = JSON.parse(data)
 
-    if (json.method !== 'isPrime' || typeof json.number !== 'number') {
-      throw 'malformed'
-    }
-
-    return JSON.stringify({
-      method: "isPrime",
-      prime: isPrime(json.number)
-    }) + '\n'
-  } catch {
+  if (json.method !== 'isPrime' || typeof json.number !== 'number') {
     throw 'malformed'
   }
+
+  return JSON.stringify({
+    method: "isPrime",
+    prime: isPrime(json.number)
+  }) + '\n'
 }
 
 function parseData(json) {
@@ -152,7 +148,7 @@ const mockSocket = {
   }
 }
 
-socketWrapper(mockSocket)
+handleConnection(mockSocket)
 
 mockSocket.emit('data', `{"method":"isPrime","number":2915625.1234}
 `)
